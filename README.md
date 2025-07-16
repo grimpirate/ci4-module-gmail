@@ -4,6 +4,7 @@ A CodeIgniter4 Module that provides email services via GMail OAuth API rather th
 ## Setup
 ~
 ```
+composer require google/apiclient
 git clone https://github.com/grimpirate/ci4-module-gmail
 mv ci4-module-gmail/modules .
 rm -rf ci4-gmail-abuseipdb
