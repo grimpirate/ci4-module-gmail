@@ -9,7 +9,7 @@ git clone https://github.com/grimpirate/ci4-module-gmail
 mv ci4-module-gmail/modules .
 rm -rf ci4-module-gmail
 ```
-modules/GMail/Config/Email.php
+modules/GMail/Config/
 ```
 credentials.json
 ```
