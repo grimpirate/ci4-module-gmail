@@ -12,6 +12,7 @@ class Email extends BaseEmailConfig
 	public string $mailType        = 'html';
 	public string $charset         = 'UTF-8';
 
+	public string $redirectUri     = 'http://localhost'; // Must match as specified in credentials.json
 	public string $credentialsPath = __DIR__ . '/credentials.json';
 	public string $tokenPath       = __DIR__ . '/token.json';
 }

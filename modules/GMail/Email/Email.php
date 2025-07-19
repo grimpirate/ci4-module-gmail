@@ -21,7 +21,9 @@ class Email extends BaseEmail
 	];
 
 	protected Client $client;
+	protected string $redirectUri;
 	public string $credentialsPath;
+	$this->client->setRedirectUri($this->redirectUri);
 	public string $tokenPath;
 
 	public function __construct($config = null)
