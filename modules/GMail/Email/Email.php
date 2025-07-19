@@ -3,7 +3,9 @@
 namespace Modules\GMail\Email;
 
 use CodeIgniter\Email\Email as BaseEmail;
-use CodeIgniter\HTTP\RedirectResponse;
+
+use Modules\GMail\Exceptions\AuthorizationException;
+use Modules\GMail\Exceptions\TokenException;
 
 use Google\Client;
 use Google\Service\Gmail as GoogleService;
@@ -11,9 +13,16 @@ use Google_Service_Gmail_Message;
 
 class Email extends BaseEmail
 {
+	protected $protocols = [
+		'mail',
+		'sendmail',
+		'smtp',
+		'gmail',
+	];
+
 	protected Client $client;
-	protected string $credentialsPath;
-	protected string $tokenPath;
+	public string $credentialsPath;
+	public string $tokenPath;
 
 	public function __construct($config = null)
 	{
@@ -25,7 +34,7 @@ class Email extends BaseEmail
 		$this->client->setAccessType('offline');
 	}
 
-	private function token($code = null)
+	private function getAuthToken()
 	{
 		if(file_exists($this->tokenPath))
 			$this->client->setAccessToken(json_decode(file_get_contents($this->tokenPath), true));
@@ -34,16 +43,21 @@ class Email extends BaseEmail
 		{
 			$refresh = $this->client->getRefreshToken();
 
-			if(!$refresh && empty($code)) return redirect()->to($this->client->createAuthUrl());
-
-			$accessToken = empty($code)
-				? $this->client->fetchAccessTokenWithRefreshToken($refresh)
-				: $this->client->fetchAccessTokenWithAuthCode($code);
-
-			$this->client->setAccessToken($accessToken);
+			$accessToken = match(!$refresh)
+			{
+				false: {
+					$code = service('request')->getGet('code');
+					if(empty($code))
+						throw new AuthorizationException();
+					return $this->client->fetchAccessTokenWithAuthCode($code);
+				},
+				default: $this->client->fetchAccessTokenWithRefreshToken($refresh);
+			}
 
 			if (array_key_exists('error', $accessToken))
-				throw new \Exception($accessToken['error']);
+				throw new TokenException($accessToken['error']);
+
+			$this->client->setAccessToken($accessToken);
 
 			file_put_contents($this->tokenPath, json_encode($accessToken));
 		}
@@ -51,27 +65,13 @@ class Email extends BaseEmail
 		return $this->client;
 	}
 
-	private function getSentMIMEMessage()
+	public function sendWithGmail()
 	{
-		$this->send(false);
-		
-		return "{$this->headerStr}{$this->subject}{$this->finalBody}";
-	}
-
-	public function gmail($code = null)
-	{
-		$token = $this->token($code);
-
-		if($token instanceof RedirectResponse)
-			return $token;
-
 		$email = new Google_Service_Gmail_Message();
-		$email->setRaw(str_replace(['+', '/', '='], ['-', '_', ''], base64_encode($this->getSentMIMEMessage())));
+		$email->setRaw(str_replace(['+', '/', '='], ['-', '_', ''], base64_encode("{$this->headerStr}{$this->subject}{$this->finalBody}")));
 
-		$service = new GoogleService($this->client);
+		$service = new GoogleService($this->getAuthToken());
 
-		$message = $service->users_messages->send('me', $email);
-
-		return $message->getId();
+		return $service->users_messages->send('me', $email) ? true : false;
 	}
 }

@@ -8,7 +8,7 @@ class Email extends BaseEmailConfig
 {
 	public string $fromEmail       = 'jane@doe.com';
 	public string $fromName        = 'Jane Doe';
-	public string $protocol        = 'sendmail';
+	public string $protocol        = 'gmail';
 	public string $mailType        = 'html';
 	public string $charset         = 'UTF-8';
 

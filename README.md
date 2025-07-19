@@ -25,6 +25,8 @@ app/Controllers/Home.php
 
 namespace App\Controllers;
 
+use Modules\GMail\Exceptions\AuthorizationException;
+
 class Home extends BaseController
 {
 	public function index()
@@ -35,7 +37,10 @@ class Home extends BaseController
 		$email->setSubject('HTML Email');
 		$email->setMessage(view('Modules\GMail\Views\html\default'));
 		$email->setAltMessage(view('Modules\GMail\Views\text\default'));
-		return $email->gmail($this->request->getGet('code'));
+		$result = $email->send(false);
+		if(!$result)
+			return $result->printDebugger([]);
+		return 'success';
 	}
 }
 ```
