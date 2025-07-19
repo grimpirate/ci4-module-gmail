@@ -39,7 +39,7 @@ class Home extends BaseController
 		$email->setAltMessage(view('Modules\GMail\Views\text\default'));
 		$result = $email->send(false);
 		if(!$result)
-			return $result->printDebugger([]);
+			return $email->printDebugger([]);
 		return 'success';
 	}
 
