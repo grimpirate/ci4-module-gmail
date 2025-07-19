@@ -12,6 +12,7 @@ use Google_Service_Gmail_Message;
 class Email extends BaseEmail
 {
 	protected Client $client;
+	protected string $redirectUri;
 	protected string $credentialsPath;
 	protected string $tokenPath;
 
@@ -22,6 +23,7 @@ class Email extends BaseEmail
 		$this->client = new Client();
 		$this->client->setScopes(GoogleService::GMAIL_SEND);
 		$this->client->setAuthConfig($this->credentialsPath);
+		$this->client->setRedirectUri($this->redirectUri);
 		$this->client->setAccessType('offline');
 	}
 
