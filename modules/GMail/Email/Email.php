@@ -34,6 +34,11 @@ class Email extends BaseEmail
 		$this->client->setAccessType('offline');
 	}
 
+	public function createAuthUrl()
+	{
+		return redirect()->to($this->client->createAuthUrl());
+	}
+
 	private function getAuthToken()
 	{
 		if(file_exists($this->tokenPath))
@@ -45,13 +50,13 @@ class Email extends BaseEmail
 
 			$accessToken = match(!$refresh)
 			{
-				false: {
+				true => (function(){
 					$code = service('request')->getGet('code');
 					if(empty($code))
 						throw new AuthorizationException();
 					return $this->client->fetchAccessTokenWithAuthCode($code);
-				},
-				default: $this->client->fetchAccessTokenWithRefreshToken($refresh);
+				})(),
+				default => $this->client->fetchAccessTokenWithRefreshToken($refresh),
 			}
 
 			if (array_key_exists('error', $accessToken))

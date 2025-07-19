@@ -2,7 +2,7 @@
 
 namespace Modules\GMail\Exceptions;
 
-class AuthorizationException extends \LogicException
+class AuthorizationException extends \ErrorException
 {
 	public function __construct($message = null, $code = 0, $severity = E_ERROR, $filename = null, $line = null, \Throwable $previous = null)
 	{

@@ -42,5 +42,14 @@ class Home extends BaseController
 			return $result->printDebugger([]);
 		return 'success';
 	}
+
+	public function gmail()
+	{
+		return service('email')->createAuthUrl();
+	}
 }
+```
+app/Config/Routes.php
+```
+$routes->get('/gmail', 'Home::gmail');
 ```
