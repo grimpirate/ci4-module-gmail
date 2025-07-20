@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\GMail\Exceptions;
+namespace Modules\Gmail\Exceptions;
 
 class TokenException extends \ErrorException
 {

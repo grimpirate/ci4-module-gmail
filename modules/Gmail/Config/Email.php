@@ -1,6 +1,6 @@
 <?php
 
-namespace Modules\GMail\Config;
+namespace Modules\Gmail\Config;
 
 use Config\Email as BaseEmailConfig;
 

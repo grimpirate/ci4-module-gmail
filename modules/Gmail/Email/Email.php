@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\GMail\Email;
+namespace Modules\Gmail\Email;
 
 use CodeIgniter\Email\Email as BaseEmail;
 
-use Modules\GMail\Exceptions\AuthorizationException;
-use Modules\GMail\Exceptions\TokenException;
+use Modules\Gmail\Exceptions\AuthorizationException;
+use Modules\Gmail\Exceptions\TokenException;
 
 use Google\Client;
 use Google\Service\Gmail as GoogleService;

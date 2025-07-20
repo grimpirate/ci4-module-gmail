@@ -1,10 +1,10 @@
 <?php
 
-namespace Modules\GMail\Config;
+namespace Modules\Gmail\Config;
 
 use CodeIgniter\Config\BaseService;
-use Modules\GMail\Config\Email as EmailConfig;
-use Modules\GMail\Email\Email;
+use Modules\Gmail\Config\Email as EmailConfig;
+use Modules\Gmail\Email\Email;
 
 class Services extends BaseService
 {
