@@ -32,18 +32,30 @@ class Home extends BaseController
 	public function index()
 	{
 		$email = service('email');
-		$email->setReplyTo($email->fromEmail, $email->fromName);
-		$email->setTo('someone@somewhere.com');
-		$email->setSubject('HTML Email');
-		$email->setMessage(view('Modules\Gmail\Views\html\default'));
+		
+		$title = 'HTML Email';
+		$to = 'someone@somewhere.com';
+		$fromName = $email->fromName;
+		$fromEmail = $email->fromEmail;
+
+		$email->setReplyTo(
+			$fromEmail,
+			$fromName
+		);
+		$email->setTo($to);
+		$email->setSubject($title);
+		$email->setMessage(view('Modules\Gmail\Views\html\default', compact(
+			'title',
+			'to',
+			'fromName',
+			'fromEmail'
+		)));
 		$email->setAltMessage(view('Modules\Gmail\Views\text\default'));
-		$result = $email->send(false);
-		if(!$result)
-			return $email->printDebugger([]);
-		return 'success';
+
+		return $email->send() ? 'success' : 'failure';
 	}
 
-	public function gmail()
+	public function get_oauth_token()
 	{
 		return service('email')->createAuthUrl();
 	}
@@ -51,5 +63,5 @@ class Home extends BaseController
 ```
 app/Config/Routes.php
 ```
-$routes->get('/gmail', 'Home::gmail');
+$routes->get('/get_oauth_token', 'Home::get_oauth_token');
 ```

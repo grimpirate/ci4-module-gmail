@@ -5,10 +5,13 @@
 		<meta http-equiv="x-ua-compatible" content="ie=edge" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 
-		<title>Email</title>
+		<title><?= $title ?></title>
 	</head>
 
 	<body>
-		This is a <strong>BASIC</strong> HTML email
+		<p>Hello <?= $to ?>,</p>
+		<p>This is a <strong>BASIC</strong> HTML email.</p>
+		<p>Sincerely,</p>
+		<p><?= $fromName ?><br><?= mailto($fromEmail) ?></p>
 	</body>
 </html>
