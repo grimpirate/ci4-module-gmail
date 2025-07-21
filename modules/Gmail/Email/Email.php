@@ -50,16 +50,14 @@ class Email extends BaseEmail
 		{
 			$refresh = $this->client->getRefreshToken();
 
-			$accessToken = match(!$refresh)
-			{
-				true => (function(){
+			$accessToken = !$refresh 
+				? (function(){
 					$code = service('request')->getGet('code');
 					if(empty($code))
 						throw new AuthorizationException();
 					return $this->client->fetchAccessTokenWithAuthCode($code);
 				})(),
-				default => $this->client->fetchAccessTokenWithRefreshToken($refresh),
-			};
+				: $this->client->fetchAccessTokenWithRefreshToken($refresh);
 
 			if (array_key_exists('error', $accessToken))
 				throw new TokenException($accessToken['error']);
