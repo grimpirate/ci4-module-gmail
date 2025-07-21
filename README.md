@@ -37,20 +37,13 @@ class Home extends BaseController
 		$to = 'someone@somewhere.com';
 		$fromName = $email->fromName;
 		$fromEmail = $email->fromEmail;
+		$data = compact('title', 'to', 'fromName', 'fromEmail');
 
-		$email->setReplyTo(
-			$fromEmail,
-			$fromName
-		);
+		$email->setReplyTo($fromEmail, $fromName);
 		$email->setTo($to);
 		$email->setSubject($title);
-		$email->setMessage(view('Modules\Gmail\Views\html\default', compact(
-			'title',
-			'to',
-			'fromName',
-			'fromEmail'
-		)));
-		$email->setAltMessage(view('Modules\Gmail\Views\text\default'));
+		$email->setMessage(view('Modules\Gmail\Views\html\default', $data));
+		$email->setAltMessage(view('Modules\Gmail\Views\text\default', $data));
 
 		return $email->send() ? 'success' : 'failure';
 	}
