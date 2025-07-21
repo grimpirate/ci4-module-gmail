@@ -1,5 +1,5 @@
 # Gmail
-A CodeIgniter4 Module that provides email services via Gmail OAuth API rather than SMTP.
+A CodeIgniter4 Module that provides email services via Gmail OAuth API rather than SMTP. Created to overcome [this issue](https://docs.digitalocean.com/support/why-is-smtp-blocked/).
 
 ## Setup
 ~
