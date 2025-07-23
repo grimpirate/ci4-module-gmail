@@ -5,7 +5,7 @@ A CodeIgniter4 Module that provides email services via Gmail OAuth API rather th
 ~
 ```
 composer require google/apiclient
-git clone https://github.com/grimpirate/ci4-module-gmail
+git clone --depth 1 --branch main --single-branch https://github.com/grimpirate/ci4-module-gmail
 mv ci4-module-gmail/modules .
 rm -rf ci4-module-gmail
 ```
