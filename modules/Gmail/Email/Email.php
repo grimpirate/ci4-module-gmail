@@ -36,6 +36,11 @@ class Email extends BaseEmail
 		$this->client->setAccessType('offline');
 	}
 
+	public function setRedirectUri($redirectUri)
+	{
+		$this->client->setRedirectUri($redirectUri);
+	}
+	
 	public function createAuthUrl()
 	{
 		return redirect()->to($this->client->createAuthUrl());
