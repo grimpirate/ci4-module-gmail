@@ -56,7 +56,7 @@ class Email extends BaseEmail
 					if(empty($code))
 						throw new AuthorizationException();
 					return $this->client->fetchAccessTokenWithAuthCode($code);
-				})(),
+				})()
 				: $this->client->fetchAccessTokenWithRefreshToken($refresh);
 
 			if (array_key_exists('error', $accessToken))
