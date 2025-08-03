@@ -13,13 +13,6 @@ use Google_Service_Gmail_Message;
 
 class Email extends BaseEmail
 {
-	protected $protocols = [
-		'mail',
-		'sendmail',
-		'smtp',
-		'gmail',
-	];
-
 	protected Client $client;
 	protected string $redirectUri;
 	public string $credentialsPath;
@@ -27,6 +20,8 @@ class Email extends BaseEmail
 
 	public function __construct($config = null)
 	{
+		array_push($this->protocols, 'gmail');
+
 		parent::__construct($config);
 
 		$this->client = new Client();
