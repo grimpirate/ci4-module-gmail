@@ -33,7 +33,8 @@ class Email extends BaseEmail
 
 	public function setRedirectUri($redirectUri)
 	{
-		$this->client->setRedirectUri($redirectUri);
+		$this->redirectUri = $redirectUri;
+		$this->client->setRedirectUri($this->redirectUri);
 	}
 	
 	public function createAuthUrl()
